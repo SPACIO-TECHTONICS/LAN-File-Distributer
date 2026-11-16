@@ -1,0 +1,26 @@
+{
+  "lan_folder": "./lan_shared_files",
+  "check_time": "11:00",
+  "repositories": [
+    {
+      "id": "ingetrazo-app",
+      "name": "Ingetrazo",
+      "type": "app",
+      "parent_app": null,
+      "repo_url": "https://github.com/ingetrazo/ingetrazo",
+      "asset_pattern": ".*\\.(exe|msi|zip)$",
+      "last_known_tag": "",
+      "last_downloaded_tag": ""
+    },
+    {
+      "id": "opencadstudio-app",
+      "name": "OpenCADStudio",
+      "type": "app",
+      "parent_app": null,
+      "repo_url": "https://github.com/opencadstudio/opencadstudio",
+      "asset_pattern": ".*\\.(exe|msi|zip)$",
+      "last_known_tag": "",
+      "last_downloaded_tag": ""
+    }
+  ]
+}

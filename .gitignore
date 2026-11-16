@@ -1,0 +1,20 @@
+# Environment variables
+.env
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.tmp
+*.downloading
+
+# Local distribution folder
+lan_shared_files/
+
+# PyInstaller build artifacts (dist/ contains shippable executable)
+build/
+
+# Operating system files
+Thumbs.db
+Desktop.ini
+.DS_Store

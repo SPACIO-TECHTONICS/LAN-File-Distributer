@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lan-file-distributor"
+version = "1.0.0"
+description = "Track GitHub repository releases and distribute installers across local area networks (LAN)."
+readme = "README.md"
+authors = [
+  { name = "Keshavanarayan" }
+]
+license = { text = "GPL-3.0-or-later" }
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12"
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/SPACIO-TECHTONICS/LAN-File-Distributer"
+Repository = "https://github.com/SPACIO-TECHTONICS/LAN-File-Distributer.git"
+Issues = "https://github.com/SPACIO-TECHTONICS/LAN-File-Distributer/issues"

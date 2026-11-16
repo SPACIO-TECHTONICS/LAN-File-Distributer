@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--
+  Copyright (C) 2026 Keshavanarayan and contributors
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LAN File Distributor - Manager</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <!-- Folder Downloader SVG Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            <polyline points="12 11 12 17 9 14"></polyline>
+            <polyline points="15 14 12 17"></polyline>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">LAN File Distributor</h1>
+          <p class="brand-subtitle">GitHub Release Tracking and LAN Distribution</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="https://github.com/sponsors/keshavanarayan" target="_blank" rel="noopener noreferrer" class="btn btn-sponsor btn-sm" title="Sponsor LAN File Distributor on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          Sponsor
+        </a>
+        <button id="btnCheckUpdates" class="btn btn-secondary" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          Check Updates Now
+        </button>
+        <button id="btnShutdown" class="btn btn-danger" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+          Close & Free Memory
+        </button>
+      </div>
+    </header>
+
+    <!-- Update Alert Banner -->
+    <section id="alertBanner" class="alert-banner" aria-live="polite">
+      <div class="alert-header">
+        <div class="alert-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          Updates Available for Pull
+        </div>
+      </div>
+      <div class="alert-content">
+        <p>New GitHub releases were detected. You can test them locally on this computer first before distributing to offline workstations, or push directly to the LAN folder.</p>
+        <ul id="alertUpdateList" class="alert-list"></ul>
+      </div>
+      <div class="alert-actions">
+        <button id="btnTestAll" class="btn btn-amber" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Download for Local Testing
+        </button>
+        <button id="btnPullAll" class="btn btn-emerald" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Push Directly to LAN Folder
+        </button>
+        <button id="btnDismissAlert" class="btn btn-secondary" type="button">Dismiss / Later</button>
+      </div>
+    </section>
+
+    <!-- LAN Settings Card -->
+    <section class="card">
+      <div class="card-title">
+        <span>LAN Distribution Folder</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputLanFolder">Predefined LAN Target Directory</label>
+        <div class="form-row">
+          <input type="text" id="inputLanFolder" class="form-input" placeholder="e.g. C:\LAN_Share\Software or \\HOST-PC\lan_shared_files">
+          <button id="btnSaveLanFolder" class="btn btn-secondary" type="button">Save Path</button>
+        </div>
+        <p class="form-hint">All pulled releases (.exe, .msi, .zip) and version files are stored in this directory for offline PCs.</p>
+      </div>
+    </section>
+
+    <!-- Add GitHub Repository or Extension (Always Visible On-Page) -->
+    <section class="card">
+      <div class="card-title">
+        <span>Add GitHub Repository or Extension</span>
+        <div class="preset-row-inline">
+          <span class="preset-label">Quick Presets:</span>
+          <button type="button" class="preset-chip" id="presetIngetrazo">+ Ingetrazo</button>
+          <button type="button" class="preset-chip" id="presetOpenCAD">+ OpenCADStudio</button>
+        </div>
+      </div>
+      <form id="formAddRepo">
+        <div class="form-row-responsive">
+          <div class="form-group flex-2">
+            <label class="form-label" for="addUrl">Paste GitHub Repository URL (or owner/repo)</label>
+            <input type="text" id="addUrl" class="form-input" placeholder="e.g. https://github.com/ingelibre/ingetrazo" required>
+            <p class="form-hint">Paste any GitHub repository link. The app will automatically parse the name and owner.</p>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label" for="addName">Name</label>
+            <input type="text" id="addName" class="form-input" placeholder="e.g. Ingetrazo" required>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label" for="addType">Classification Type</label>
+            <select id="addType" class="form-input">
+              <option value="app">Main Application</option>
+              <option value="extension">Extension / Plugin</option>
+            </select>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label" for="addPattern">Asset Pattern (Regex)</label>
+            <input type="text" id="addPattern" class="form-input" value=".*\.(exe|msi|zip)$" required>
+          </div>
+          <div class="form-group form-btn-container">
+            <button type="submit" class="btn btn-emerald" id="btnAddRepo">Add to Tracking</button>
+          </div>
+        </div>
+        <div class="form-group hidden-element" id="parentAppGroup">
+          <label class="form-label" for="addParentApp">Parent Application Name</label>
+          <input type="text" id="addParentApp" class="form-input" placeholder="e.g. Ingetrazo">
+        </div>
+      </form>
+    </section>
+
+    <!-- Tracked Repositories and Extensions Card -->
+    <section class="card">
+      <div class="card-title">
+        <span>Tracked Applications & Extensions</span>
+        <div class="card-title-actions">
+          <button id="btnPullSelected" class="btn btn-emerald btn-sm" type="button" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span id="pullSelectedLabel">Pull Selected (0)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="repo-table">
+          <thead>
+            <tr>
+              <th class="th-checkbox">
+                <input type="checkbox" id="selectAllCheckbox" class="custom-checkbox" title="Select All">
+              </th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>GitHub URL</th>
+              <th>LAN Live Version</th>
+              <th>Latest GitHub Tag</th>
+              <th>Testing Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="repoTableBody">
+            <tr>
+              <td colspan="8" class="table-empty-cell">Loading tracked repositories...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Connected Offline Workstations Fleet -->
+    <section class="card">
+      <div class="card-title">
+        <span>Connected Offline Workstations Fleet</span>
+        <button id="btnRefreshClients" class="btn btn-secondary btn-sm" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          Refresh Clients
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="repo-table">
+          <thead>
+            <tr>
+              <th>Workstation Name</th>
+              <th>IP Address</th>
+              <th>Installed Versions</th>
+              <th>Last Seen</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="clientsTableBody">
+            <tr>
+              <td colspan="5" class="table-empty-cell">No offline workstations have reported yet. Run pull_update.ps1 on client PCs to register automatically.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Two-Stage Offline LAN Relay Helper -->
+    <section class="card">
+      <div class="card-title">
+        <span>Offline PC Relay Deployment Guide</span>
+      </div>
+      <div class="relay-info-box">
+        <p>Your target PC has no internet connection. It pulls and installs updates silently using this PowerShell command:</p>
+        <div class="code-snippet">
+          <span id="clientScriptSnippet">powershell.exe -ExecutionPolicy Bypass -File "C:\UpdateScripts\pull_update.ps1"</span>
+          <button id="btnCopySnippet" class="btn btn-secondary btn-sm" type="button">Copy</button>
+        </div>
+        <p>The client script is available at <code>client_scripts\pull_update.ps1</code>. It checks <code>latest_version.txt</code> and installs <code>.msi</code>, <code>.exe</code>, or <code>.zip</code> packages silently in the background under Admin.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>LAN File Distributor &bull; Open source under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer">GNU General Public License v3.0</a></p>
+    </footer>
+  </div>
+
+  <!-- Accessible Toast -->
+  <div id="toast" class="status-toast" role="status" aria-live="polite"></div>
+</body>
+</html>
